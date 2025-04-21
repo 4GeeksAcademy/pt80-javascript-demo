@@ -1,5 +1,30 @@
 import "./style.css";
 
+function BookCard(book = {}) {
+  return `
+<div class="card mx-auto mb-2" style="width: 25rem;">
+  <img src="${book.cover}" class="card-img-top" alt="..." />
+  <div class="card-body">
+    <h5 class="card-title">${book.title}</h5>
+    <p class="card-text">By ${book.author}</p>
+    <a href="/books/${book.id}" class="btn btn-primary">Details</a>
+  </div>
+</div>
+`
+}
+
+const Button = ({
+  variant = "primary",
+  outline = null,
+  label = "Button",
+  type = "button",
+}) => {
+  return `<button type="${type}" class="btn btn-${outline ? "outline-" : ""}${variant}">
+  ${label}
+</button>
+`
+}
+
 window.onload = function () {
   const books = [
     {
@@ -104,44 +129,42 @@ window.onload = function () {
       is_awesome: true,
       id: 17,
     },
+    {
+      num_pages: 494,
+      year_published: 1995,
+      author: "Fritz Lieber",
+      isbn10: null,
+      have_read: true,
+      cover:
+        "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1223645907i/102266.jpg",
+      title: "Ill Met In Lankhmar",
+      isbn13: "9781565048942",
+      is_awesome: true,
+      id: 18,
+    },
+    {
+      num_pages: 424,
+      year_published: 2017,
+      author: "Brandon Graham",
+      isbn10: null,
+      have_read: true,
+      cover: "https://atomicbooks.com/cdn/shop/products/kingcity_1600x.jpg",
+      title: "King City",
+      isbn13: "978-1-60706-510-4",
+      is_awesome: true,
+      id: 19,
+    },
   ];
 
-  // For Of Loop
-  // for (const book of books) {
-  // console.log(`${book.title} — ${book.author}`);
-  // }
+  const app = document.querySelector("#app");
 
-  // Old-School For Loop
-  // for (
-  //   let idx = 0;
-  //   idx < books.length;
-  //   idx++
-  // ) {
-  //   console.log(`${books[idx].title} — ${books[idx].author}`);
-  // }
+  // app.innerHTML += Button({
+  //   variant: "secondary",
+  //   outline: true,
+  //   label: "This is a cool button that does things."
+  // });
 
-  // For In
-  // for (const idx in books) {
-  //   console.log(`${books[idx].title} — ${books[idx].author}`);
-  // }
-
-  // While loop
-  // let count = 0;
-  // while (count < 100) {
-  //   console.log(count);
-  //   count++;
-  // }
-
-  // Conditionals
-  // A shorter version of the if/else statement
-  // is called a ternary.
-  // for (const book of books) {
-  //   if (book.num_pages < 300) {
-  //     console.log(`I could read ${book.title} in a day`);
-  //   } else if (book.num_pages < 600) {
-  //     console.log(`I could read ${book.title} in a weekend.`);
-  //   } else {
-  //     console.log(`I could read ${book.title} in a week.`);
-  //   }
-  // }
+  for (const book of books) {
+    app.innerHTML += BookCard(book);
+  }
 };
