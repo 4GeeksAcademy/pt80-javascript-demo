@@ -1,5 +1,10 @@
 import "./style.css";
 
+/**
+ * Generates HTML for a book card component.
+ * @param {*} book 
+ * @returns string
+ */
 function BookCard(book = {}) {
   return `
 <div class="card mx-auto mb-2" style="width: 25rem;">
@@ -13,6 +18,11 @@ function BookCard(book = {}) {
 `
 }
 
+/**
+ * Generates a Bootstrap button component.
+ * @param {*} buttonData
+ * @returns string
+ */
 const Button = ({
   variant = "primary",
   outline = null,
