@@ -222,6 +222,8 @@ window.onload = function () {
    * (Now with memoization so that the page actually loads!)
    * 0,1,1,2,3,5,8,13,21,34,55...
    * @param {*} n 
+   * @param {*} memo 
+   * @returns 
    */
   const fib = (n, memo = {}) => {
     if (n <= 1) {
