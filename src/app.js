@@ -168,13 +168,76 @@ window.onload = function () {
 
   const app = document.querySelector("#app");
 
-  // app.innerHTML += Button({
-  //   variant: "secondary",
-  //   outline: true,
-  //   label: "This is a cool button that does things."
-  // });
+  // For of:
+  // for (const book of books) {
+  //   app.innerHTML += BookCard(book);
+  // }
 
-  for (const book of books) {
-    app.innerHTML += BookCard(book);
+  // Map:
+  // app.innerHTML = books.map(book => BookCard(book)).join("");
+
+  // forEach:
+  // books.forEach(book => app.innerHTML += BookCard(book));
+
+  // const boardState = [
+  //   ["X","O","O"],
+  //   [" ","X","O"],
+  //   [" "," ","X"],
+  // ];
+
+  // for (const row of boardState) {
+  //   const htmlRow = document.createElement("div");
+  //   htmlRow.classList.add("row");
+
+  //   for (const cell of row) {
+  //     const htmlCell = document.createElement("div");
+  //     htmlCell.innerHTML = cell;
+  //     htmlCell.classList.add("col");
+  //     htmlRow.appendChild(htmlCell);
+  //   }
+  //   app.appendChild(htmlRow);
+  // }
+
+  // const rule = document.createElement("hr")
+  // app.appendChild(rule);
+
+  // const x = [0,1,2,3,4];
+  // const y = [0,1,2,3,4];
+
+  // for (const row of x.reverse()) {
+  //   const htmlRow = document.createElement("div");
+  //   htmlRow.classList.add("row");
+
+  //   for (const col of y) {
+  //     const htmlCell = document.createElement("div");
+  //     htmlCell.innerHTML = [col, row];
+  //     htmlCell.classList.add("col");
+  //     htmlRow.appendChild(htmlCell);
+  //   }
+  //   app.appendChild(htmlRow);
+  // }
+
+  /**
+   * A function to calculate a fibonnacci number.
+   * (Now with memoization so that the page actually loads!)
+   * 0,1,1,2,3,5,8,13,21,34,55...
+   * @param {*} n 
+   */
+  const fib = (n, memo = {}) => {
+    if (n <= 1) {
+      return n;
+    }
+
+    if (memo[n]) {
+      return memo[n];
+    }
+
+    memo[n] = fib(n - 1, memo) + fib(n - 2, memo);
+
+    return memo[n];
+  }
+
+  for (let i = 0; i < 50; i++) {
+    console.log(fib(i));
   }
 };
