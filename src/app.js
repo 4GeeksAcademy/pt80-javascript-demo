@@ -168,10 +168,32 @@ window.onload = function () {
 
   let currentBook = 0;
 
-  const cardBody = document.querySelector("#target");
-  
+  const updateBook = () => {
+    // We're going to need to find the card on the page.
+    const cardBody = document.querySelector("#target");
+    // Change the contents of the card to have details
+    cardBody.querySelector("h5.card-title").innerHTML = `${books[currentBook].title}`;
+    cardBody.querySelector("img").src = books[currentBook].cover;
+    cardBody.querySelector("p.card-text").innerHTML = `By: ${books[currentBook].author}`;
+    // about the currently selected book.
+  }
+
+  updateBook();
+
+  // Old onclick method:
+  // document.querySelector("#left").onclick = () => {
+  //   currentBook = (currentBook - 1 >= 0) ? (currentBook - 1) : (books.length - 1);
+  //   updateBook();
+  // };
+
+  // Less-old addEventListener method:
   document.querySelector("#left").addEventListener("click", () => {
-    // currentBook = (currentBook - 1) % books.length;
-    console.log(currentBook);
+    currentBook = (currentBook - 1 >= 0) ? (currentBook - 1) : (books.length - 1);
+    updateBook();
+  });
+
+  document.querySelector("#right").addEventListener("click", () => {
+    currentBook = (currentBook + 1) % books.length;
+    updateBook();
   });
 };
