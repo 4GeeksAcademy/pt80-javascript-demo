@@ -196,4 +196,8 @@ window.onload = function () {
     currentBook = (currentBook + 1) % books.length;
     updateBook();
   });
+
+  console.log("Hello world!");
 };
+
+
