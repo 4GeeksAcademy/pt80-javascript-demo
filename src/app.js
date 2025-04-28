@@ -188,7 +188,11 @@ window.onload = function () {
 
   // Less-old addEventListener method:
   document.querySelector("#left").addEventListener("click", () => {
-    currentBook = (currentBook - 1 >= 0) ? (currentBook - 1) : (books.length - 1);
+    if (currentBook >= 1) {
+      currentBook = currentBook - 1;
+    } else {
+      currentBook = books.length - 1
+    }
     updateBook();
   });
 
