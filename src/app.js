@@ -35,7 +35,50 @@ const Button = ({
 `
 }
 
+/**
+ * This is a function that calculates a fibonacci number recursively.
+ * @param {number} n - The number of the fibonacci number you want.
+ * @param {object} memo - Memoization object.
+ * @returns number
+ */
+const recursiveFibonacci = (n, memo = {}) => {
+  if (n <= 1) {
+    return 1;
+  }
+
+  if (memo[n]) {
+    return memo[n];
+  }
+
+  memo[n] = recursiveFibonacci(n - 1, memo) + recursiveFibonacci(n - 2, memo);
+
+  return memo[n];
+}
+
+/**
+ * This is a function that calculates a fibonacci number iteratively.
+ * @param {number} n - The number of the fibonacci number that you want.
+ * @returns number
+ */
+const iterativeFibonacci = (n) => {
+  let previous = 0;
+  let current = 1;
+  let swap = 0;
+
+  for (let i = 0; i < n; i++) {
+    swap = current + previous;
+    previous = current;
+    current = swap;
+  }
+
+  return current;
+}
+
 window.onload = function () {
+
+  // console.log(iterativeFibonacci(5));
+  // console.log(recursiveFibonacci(5));
+
   const books = [
     {
       num_pages: 293,
@@ -171,7 +214,8 @@ window.onload = function () {
   const updateBook = () => {
     // We're going to need to find the card on the page.
     const cardBody = document.querySelector("#target");
-    // Change the contents of the card to have details
+
+    // Populate the card with book details
     cardBody.querySelector("h5.card-title").innerHTML = `${books[currentBook].title}`;
     cardBody.querySelector("img").src = books[currentBook].cover;
     cardBody.querySelector("p.card-text").innerHTML = `By: ${books[currentBook].author}`;
