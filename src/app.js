@@ -8,11 +8,11 @@ import "./style.css";
 function BookCard(book = {}) {
   return `
 <div class="card mx-auto mb-2" style="width: 25rem;">
-  <img src="${book.cover}" class="card-img-top" alt="..." />
+  <img src="${book.cover ? book.cover : "/assets/img/rigo-baby.jpg"}" class="card-img-top" alt="..." />
   <div class="card-body">
-    <h5 class="card-title">${book.title}</h5>
-    <p class="card-text">By ${book.author}</p>
-    <a href="/books/${book.id}" class="btn btn-primary">Details</a>
+    <h5 class="card-title">${book.title ? book.title : "Some Coding Book Or Something"}</h5>
+    <p class="card-text">By ${book.author ? book.author : "Some Nerd (in the cool sense, because we know nerds are cool.)"}</p>
+    <a href="/books/${book.id ? book.id : 0}" class="btn btn-primary">Details</a>
   </div>
 </div>
 `
@@ -28,50 +28,18 @@ const Button = ({
   outline = null,
   label = "Button",
   type = "button",
+  events = {},
 }) => {
-  return `<button type="${type}" class="btn btn-${outline ? "outline-" : ""}${variant}">
-  ${label}
-</button>
-`
-}
+  const button = document.createElement("button");
+  button.type = type;
+  button.classList.add("btn", `btn-${outline ? "outline-" : ""}${variant}`);
+  button.innerHTML = label;
 
-/**
- * This is a function that calculates a fibonacci number recursively.
- * @param {number} n - The number of the fibonacci number you want.
- * @param {object} memo - Memoization object.
- * @returns number
- */
-const recursiveFibonacci = (n, memo = {}) => {
-  if (n <= 1) {
-    return 1;
+  for (const event in events) {
+    button.addEventListener(event, events[event]);
   }
 
-  if (memo[n]) {
-    return memo[n];
-  }
-
-  memo[n] = recursiveFibonacci(n - 1, memo) + recursiveFibonacci(n - 2, memo);
-
-  return memo[n];
-}
-
-/**
- * This is a function that calculates a fibonacci number iteratively.
- * @param {number} n - The number of the fibonacci number that you want.
- * @returns number
- */
-const iterativeFibonacci = (n) => {
-  let previous = 0;
-  let current = 1;
-  let swap = 0;
-
-  for (let i = 0; i < n; i++) {
-    swap = current + previous;
-    previous = current;
-    current = swap;
-  }
-
-  return current;
+  return button
 }
 
 window.onload = function () {
@@ -209,6 +177,24 @@ window.onload = function () {
     },
   ];
 
+  const buttons = [
+    {
+      label: "Button 1",
+      events: {
+        click: () => console.log("Button 1 was clicked!"),
+        contextmenu: () => console.log("Button 1 was right-clicked!"),
+        mouseover: () => console.log("Button 1 was hovered!")
+      }
+    },
+    {
+      label: "Button 2",
+      events: {
+        click: () => console.log("Button 2 was clicked!"),
+        contextmenu: () => console.log("Button 2 was right-clicked!"),
+      }
+    },
+  ];
+
   let currentBook = 0;
 
   const updateBook = () => {
@@ -224,11 +210,15 @@ window.onload = function () {
 
   updateBook();
 
-  // Old onclick method:
-  // document.querySelector("#left").onclick = () => {
-  //   currentBook = (currentBook - 1 >= 0) ? (currentBook - 1) : (books.length - 1);
-  //   updateBook();
-  // };
+  const app = document.querySelector("#app");
+  
+  for (const buttonData of buttons) {
+    app.appendChild(
+      Button(buttonData)
+    );
+  }
+
+  app.innerHTML += BookCard();
 
   // Less-old addEventListener method:
   document.querySelector("#left").addEventListener("click", () => {
