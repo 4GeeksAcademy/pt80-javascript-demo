@@ -211,6 +211,12 @@ window.onload = function () {
   updateBook();
 
   const app = document.querySelector("#app");
+
+  const item = document.querySelector("#test");
+  item.addEventListener(
+    "input",
+    (ev) => console.log(ev.target.value),
+  )
   
   for (const buttonData of buttons) {
     app.appendChild(
@@ -218,7 +224,10 @@ window.onload = function () {
     );
   }
 
-  app.innerHTML += BookCard();
+  // app.innerHTML += BookCard({
+  //   title: "The Player Of Games",
+  //   author: "Iain M. Banks",
+  // });
 
   // Less-old addEventListener method:
   document.querySelector("#left").addEventListener("click", () => {
