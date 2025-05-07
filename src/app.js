@@ -24,13 +24,14 @@ function BookCard(book = {}) {
  * @returns string
  */
 const Button = ({
+  htmlTag = "button",
   variant = "primary",
-  outline = null,
+  outline = false,
   label = "Button",
   type = "button",
   events = {},
 }) => {
-  const button = document.createElement("button");
+  const button = document.createElement(htmlTag);
   button.type = type;
   button.classList.add("btn", `btn-${outline ? "outline-" : ""}${variant}`);
   button.innerHTML = label;
