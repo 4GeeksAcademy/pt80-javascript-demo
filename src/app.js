@@ -3,19 +3,38 @@ import "./style.css";
 /**
  * Generates HTML for a book card component.
  * @param {*} book 
- * @returns string
+ * @param {*} options 
+ * @returns HTMLDivElement
  */
-function BookCard(book = {}) {
-  return `
-<div class="card mx-auto mb-2" style="width: 25rem;">
-  <img src="${book.cover ? book.cover : "/assets/img/rigo-baby.jpg"}" class="card-img-top" alt="..." />
-  <div class="card-body">
-    <h5 class="card-title">${book.title ? book.title : "Some Coding Book Or Something"}</h5>
-    <p class="card-text">By ${book.author ? book.author : "Some Nerd (in the cool sense, because we know nerds are cool.)"}</p>
-    <a href="/books/${book.id ? book.id : 0}" class="btn btn-primary">Details</a>
-  </div>
-</div>
-`
+function BookCard(book = {}, options = {
+  width: "20rem",
+}) {
+  const card = document.createElement("div");
+  card.classList.add("card", "mx-auto", "mb-2");
+  card.style.width = options.width;
+
+  const cover = document.createElement("img");
+  cover.alt = `The cover of the book ${book.title} by ${book.author}`;
+  cover.src = book.cover ? book.cover : "/assets/img/rigo-baby.jpg";
+  cover.classList.add("card-img-top");
+
+  const body = document.createElement("div");
+  body.classList.add("card-body");
+
+  const header = document.createElement("h5");
+  header.classList.add("card-title");
+  header.innerHTML = book.title ? book.title : "Some Coding Book Or Something";
+  body.appendChild(header);
+
+  const cardText = document.createElement("p");
+  cardText.classList.add("card-body");
+  cardText.innerHTML = `By ${book.author ? book.author : "Some Nerd (in the cool sense, because we know nerds are cool.)"}`;
+  body.appendChild(cardText);
+
+  card.appendChild(cover);
+  card.appendChild(body);
+
+  return card;
 }
 
 /**
@@ -44,10 +63,6 @@ const Button = ({
 }
 
 window.onload = function () {
-
-  // console.log(iterativeFibonacci(5));
-  // console.log(recursiveFibonacci(5));
-
   const books = [
     {
       num_pages: 293,
@@ -180,19 +195,22 @@ window.onload = function () {
 
   const buttons = [
     {
-      label: "Button 1",
+      label: "&lt;&mdash;",
       events: {
-        click: () => console.log("Button 1 was clicked!"),
-        contextmenu: () => console.log("Button 1 was right-clicked!"),
-        mouseover: () => console.log("Button 1 was hovered!")
-      }
+        click: () => {
+          currentBook = (currentBook - 1 >= 0) ? (currentBook - 1) : (books.length - 1);
+          updateBook();
+        },
+      },
     },
     {
-      label: "Button 2",
+      label: "&mdash;&gt;",
       events: {
-        click: () => console.log("Button 2 was clicked!"),
-        contextmenu: () => console.log("Button 2 was right-clicked!"),
-      }
+        click: () => {
+          currentBook = (currentBook + 1) % books.length;
+          updateBook();
+        },
+      },
     },
   ];
 
@@ -200,44 +218,17 @@ window.onload = function () {
 
   const updateBook = () => {
     // We're going to need to find the card on the page.
-    const cardBody = document.querySelector("#target");
-
-    // Populate the card with book details
-    cardBody.querySelector("h5.card-title").innerHTML = `${books[currentBook].title}`;
-    cardBody.querySelector("img").src = books[currentBook].cover;
-    cardBody.querySelector("p.card-text").innerHTML = `By: ${books[currentBook].author}`;
-    // about the currently selected book.
+    const card = document.querySelector("#target");
+    card.querySelector("div.card").replaceWith(BookCard(books[currentBook]));
   }
 
   updateBook();
 
-  const app = document.querySelector("#app");
+  const controls = document.querySelector("#controls");
 
-  const item = document.querySelector("#test");
-  item.addEventListener(
-    "input",
-    (ev) => console.log(ev.target.value),
-  )
-  
   for (const buttonData of buttons) {
-    app.appendChild(
+    controls.appendChild(
       Button(buttonData)
     );
   }
-
-  // app.innerHTML += BookCard({
-  //   title: "The Player Of Games",
-  //   author: "Iain M. Banks",
-  // });
-
-  // Less-old addEventListener method:
-  document.querySelector("#left").addEventListener("click", () => {
-    currentBook = (currentBook - 1 >= 0) ? (currentBook - 1) : (books.length - 1);
-    updateBook();
-  });
-
-  document.querySelector("#right").addEventListener("click", () => {
-    currentBook = (currentBook + 1) % books.length;
-    updateBook();
-  });
 };
